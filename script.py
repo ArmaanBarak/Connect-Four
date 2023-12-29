@@ -2,8 +2,12 @@
 class Grid:
 
     def __init__(self):
-        row = ["_" for i in range(7)]
-        self.grid = [row for i in range(6)]
+        self.grid = [["_", "_", "_", "_", "_", "_", "_"],
+                     ["_", "_", "_", "_", "_", "_", "_"],
+                     ["_", "_", "_", "_", "_", "_", "_"],
+                     ["_", "_", "_", "_", "_", "_", "_"],
+                     ["_", "_", "_", "_", "_", "_", "_"],
+                     ["_", "_", "_", "_", "_", "_", "_"]]
 
 
     def show_grid(self):
@@ -14,8 +18,15 @@ class Grid:
 
             print("")
 
+    def modify_grid(self, col_num, symbol):
+        for row in self.grid[::-1]:
+            if row[col_num - 1] == "_":
+                row[col_num - 1] = symbol
+            break
 
 my_grid = Grid()
 
-# testing show_grid() method
+# testing modify_grid() method
+# adding "X" in first empty space of column 3 from bottom
+my_grid.modify_grid(3, "X")
 my_grid.show_grid()
