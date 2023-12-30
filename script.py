@@ -10,6 +10,7 @@ class Grid:
                      ["_", "_", "_", "_", "_", "_", "_"]]
 
     def show_grid(self):
+        print("Here's the grid ->")
         for row in self.grid:
 
             for cell in row:
@@ -67,35 +68,48 @@ class Grid:
                 return True
         
 class Player:
-    def __init__(self, name, symbol):
+    def __init__(self, name):
         self.name = name
-        self.symbol = symbol
+        self.symbol = ""
+    
+    def get_symbol(self, other_player):
+        while True:
+            player_input = input("{}, choose your mark to represent your ball on the grid (Either 'X' or 'O'): ".format(self.name)).capitalize()
+            if player_input not in ['X', 'O']:
+                print("Invalid Input!")
+                continue
+            break
+        self.symbol = player_input
+
+        if self.symbol == "X":
+            other_player.symbol = "O"
+        else:
+            other_player.symbol = "X"
+
+        print("{} gets {}".format(other_player.name, other_player.symbol))
+    
+    def insert_symbol(self, grid:Grid):
+        while True:
+            col_number = int(input("{} enter the column, where you'ld like to insert your ball (1-7): ".format(self.name)))
+            if col_number not in [1, 2, 3, 4, 5, 6, 7]:
+                print("Invalid Input!")
+                continue
+            print("Inserting value!")
+            grid.modify_grid(col_number, self.symbol)
+            break
 
 
-if __name__ == "__main__":
+def play_connect_four():
     print("Welcome to Connect-Four Game!")
     player_1_name = input("Please enter your name Player 1: ")
     player_2_name = input("Please enter your name Player 2: ")
 
-    while True:
-        player_1_symbol = input("{}, Choose your mark to represent your ball on the grid (Either 'X' or 'O'): ".format(player_1_name))
-        if player_1_symbol.capitalize() not in ['X', 'O']:
-            print("Invalid Input!")
-            continue
-        break
-
-    player_1_symbol = player_1_symbol.capitalize()
-
-    if player_1_symbol == "X":
-        player_2_symbol = "O"
-    else:
-        player_2_symbol = "X"
-
-    player1 = Player(player_1_name, player_1_symbol)
-    player2 = Player(player_2_name, player_2_symbol)
+    player1 = Player(player_1_name)
+    player2 = Player(player_2_name)
     my_grid = Grid()
 
-    print("Here's the grid ->")
+    player1.get_symbol(player2)
+
     my_grid.show_grid()
 
     print("{} will go first!".format(player1.name))
@@ -104,14 +118,7 @@ if __name__ == "__main__":
 
     while True:
 
-        while True:
-            col_number = int(input("{} enter the column, where you'ld like to insert your ball (1-7): ".format(player1.name)))
-            if col_number not in [1, 2, 3, 4, 5, 6, 7]:
-                print("Invalid Input!")
-                continue
-            print("Inserting value!")
-            my_grid.modify_grid(col_number, player1.symbol)
-            break
+        player1.insert_symbol(my_grid)
 
         match_found = my_grid.check_for_win(player1.symbol)
         my_grid.show_grid()
@@ -120,18 +127,13 @@ if __name__ == "__main__":
             print("Congratulations! {} you WON!!!".format(player1.name))
             break
 
-        while True:
-            col_number = int(input("{} enter the column, where you'ld like to insert your ball (1-7): ".format(player2.name)))
-            if col_number not in [1, 2, 3, 4, 5, 6, 7]:
-                print("Invalid Input!")
-                continue
-            print("Inserting value!")
-            my_grid.modify_grid(col_number, player2.symbol)
-            break
+        player2.insert_symbol(my_grid)
 
-        match_found = my_grid.check_for_win(player1.symbol)
+        match_found = my_grid.check_for_win(player2.symbol)
         my_grid.show_grid()
 
         if match_found:
             print("Congratulations! {} you WON!!!".format(player1.name))
             break
+
+play_connect_four()
