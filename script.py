@@ -44,14 +44,33 @@ class Grid:
             elif ((self.grid[2][col_index] == symbol) and (self.grid[3][col_index] == symbol) and (self.grid[4][col_index] == symbol) and (self.grid[5][col_index] == symbol)):
                 return True
         
+        # diagnol check left to right
+        for row_index in range(4):
+            if ((self.grid[row_index][0] == symbol) and (self.grid[row_index + 1][1] == symbol) and (self.grid[row_index + 2][2] == symbol) and (self.grid[row_index + 3][3] == symbol)):
+                return True
+            elif ((self.grid[row_index][1] == symbol) and (self.grid[row_index + 1][2] == symbol) and (self.grid[row_index + 2][3] == symbol) and (self.grid[row_index + 3][4] == symbol)):
+                return True
+            elif ((self.grid[row_index][2] == symbol) and (self.grid[row_index + 1][3] == symbol) and (self.grid[row_index + 2][4] == symbol) and (self.grid[row_index + 3][5] == symbol)):
+                return True
+            elif ((self.grid[row_index][3] == symbol) and (self.grid[row_index + 1][4] == symbol) and (self.grid[row_index + 2][5] == symbol) and (self.grid[row_index + 3][6] == symbol)):
+                return True
+        
+        
 
 my_grid = Grid()
 
 # testing for check_for_win() method
+my_grid.modify_grid(1, "X")
+my_grid.modify_grid(1, "O")
+my_grid.modify_grid(1, "O")
+my_grid.modify_grid(1, "X")
+my_grid.modify_grid(2, "O")
+my_grid.modify_grid(2, "O")
+my_grid.modify_grid(2, "X")
+my_grid.modify_grid(3, "O")
 my_grid.modify_grid(3, "X")
-my_grid.modify_grid(3, "X")
-my_grid.modify_grid(3, "X")
-my_grid.modify_grid(3, "X")
+my_grid.modify_grid(4, "X")
 my_grid.show_grid()
+
 # should print True
 print(my_grid.check_for_win("X"))
